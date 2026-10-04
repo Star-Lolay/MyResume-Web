@@ -1,0 +1,292 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root, [data-theme="light"] {
+    --bg-warm-white: #F4F1EC;
+    --text-charcoal: #1A1A1A;
+    --text-grey: #6B6B6B;
+    --accent-teal: #2D6A65;
+    --border-light: #E0DDD8;
+
+    --background: 40 18% 94%;
+    --foreground: 0 0% 10%;
+    --card: 40 18% 94%;
+    --card-foreground: 0 0% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 0 0% 10%;
+    --primary-foreground: 40 18% 94%;
+    --secondary: 40 10% 88%;
+    --secondary-foreground: 0 0% 10%;
+    --muted: 40 10% 88%;
+    --muted-foreground: 0 0% 42%;
+    --accent: 174 40% 29%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 30 10% 86%;
+    --input: 30 10% 86%;
+    --ring: 174 40% 29%;
+    --radius: 0.25rem;
+  }
+
+  [data-theme="dark"] {
+    --bg-warm-white: #0D0D0D;
+    --text-charcoal: #F0F0F0;
+    --text-grey: #888888;
+    --accent-teal: #5AAAA4;
+    --border-light: #2A2A2A;
+
+    --background: 0 0% 5%;
+    --foreground: 0 0% 94%;
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 94%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 94%;
+    --primary: 0 0% 94%;
+    --primary-foreground: 0 0% 5%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 94%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 53%;
+    --accent: 174 30% 52%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 16%;
+    --input: 0 0% 16%;
+    --ring: 174 30% 52%;
+  }
+
+  body {
+    font-family: 'Space Mono', monospace;
+    background-color: var(--bg-warm-white);
+    color: var(--text-charcoal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  ::selection {
+    background-color: var(--text-charcoal);
+    color: var(--bg-warm-white);
+  }
+
+  [data-theme="dark"] ::selection {
+    background-color: #F0F0F0;
+    color: #0D0D0D;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-light);
+    border-radius: 2px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-grey);
+  }
+}
+
+
+/* ============================================================
+ * 字体系统（body 走系统中文栈，保证中文渲染质量）
+ * ============================================================ */
+@layer base {
+  body {
+    font-family: 'Inter', -apple-system, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  }
+}
+
+.font-label {
+  font-family: 'Space Mono', ui-monospace, monospace;
+}
+
+.font-display {
+  font-family: 'Source Serif 4', 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+}
+
+/* ============================================================
+ * 应用外壳：顶部 40px 条 + 三栏（桌面） / 单栏堆叠（移动）
+ * ============================================================ */
+.app-shell {
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: var(--bg-warm-white);
+}
+
+.top-bar {
+  height: 40px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border-light);
+  background-color: var(--bg-warm-white);
+  position: relative;
+  z-index: 20;
+}
+
+.columns {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.col-left {
+  width: 22%;
+  min-width: 250px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--border-light);
+  position: relative;
+}
+
+.col-middle {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  border-right: 1px solid var(--border-light);
+  scroll-behavior: smooth;
+}
+
+.col-right {
+  width: 25%;
+  min-width: 270px;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+/* 移动端：三栏变单栏，顺序为 关于我 → 项目 → 简历/技能 */
+@media (max-width: 1023px) {
+  .app-shell {
+    height: auto;
+    overflow: visible;
+  }
+  .columns {
+    flex-direction: column;
+  }
+  .col-left,
+  .col-middle,
+  .col-right {
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    overflow: visible;
+    border-right: none;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .col-left {
+    min-height: 480px;
+  }
+  .top-bar {
+    position: sticky;
+    top: 0;
+  }
+}
+
+/* ============================================================
+ * 项目卡片
+ * ============================================================ */
+.project-card {
+  cursor: pointer;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.card-image {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  aspect-ratio: 16 / 10;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 500ms cubic-bezier(0.65, 0, 0.35, 1), filter 300ms ease-in-out;
+}
+
+/* 悬停时的「烟熏」渐变遮罩 + 查看提示 */
+.card-image .smoke {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(13, 13, 13, 0.72) 0%, rgba(13, 13, 13, 0.08) 55%, transparent 100%);
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+  display: flex;
+  align-items: flex-end;
+  padding: 16px;
+}
+
+.project-card:hover .card-image img {
+  transform: scale(1.025);
+}
+
+.project-card:hover .smoke {
+  opacity: 1;
+}
+
+/* 触屏设备没有 hover：直接常显一个轻量遮罩提示 */
+@media (hover: none) {
+  .card-image .smoke {
+    opacity: 1;
+    background: linear-gradient(to top, rgba(13, 13, 13, 0.55) 0%, transparent 45%);
+  }
+}
+
+.metric-value {
+  font-family: 'Source Serif 4', 'Noto Serif SC', 'Songti SC', serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--accent-teal);
+  line-height: 1.1;
+}
+
+.tag-pill {
+  font-family: 'Space Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border: 1px solid var(--border-light);
+  color: var(--text-grey);
+  white-space: nowrap;
+}
+
+/* ============================================================
+ * 通用细节
+ * ============================================================ */
+.link-underline {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 167ms linear;
+}
+.link-underline:hover {
+  opacity: 0.6;
+}
+
+/* 尊重系统的减弱动效设置 */
+@media (prefers-reduced-motion: reduce) {
+  .card-image img,
+  .card-image .smoke {
+    transition: none;
+  }
+}
